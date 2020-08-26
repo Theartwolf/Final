@@ -1,18 +1,49 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SelectParticipantComponent } from './select-participant/select-participant.component';
+import { InterviewComponent } from './interview/interview.component';
+import { CustomMaterialModule } from './material.module';
+import { ParticipantsService } from './participants.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { EditParticipantComponent } from './edit-participant/edit-participant.component';
+import { ViewParticipantComponent } from './view-participant/view-participant.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InterviewComponent,
+    SelectParticipantComponent,
+    EditParticipantComponent,
+    ViewParticipantComponent
+  ],
+  entryComponents: [
+    SelectParticipantComponent,
+    EditParticipantComponent,
+    ViewParticipantComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    CustomMaterialModule,
+    BrowserAnimationsModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  exports: [
+    
+  ],
+  providers: [
+    ParticipantsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
