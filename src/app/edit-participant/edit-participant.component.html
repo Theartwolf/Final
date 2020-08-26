@@ -8,8 +8,31 @@
 
 </div> -->
 <div *ngFor='let part of participants'>
-        <input type="checkbox" (change)="getSelectedId($event,part.par_id,part.start_time,part.end_time)"  [disabled]="isChecked"  >{{part.first_name}} {{part.last_name}} {{part.start_time}} {{part.end_time}}
-    </div>
+        <input type="checkbox" (change)="getSelectedId($event,part.par_id,part.start_time,part.end_time)"  [disabled]="isChecked"  >{{part.first_name}} {{part.last_name}} <span class="tab"></span>{{part.start_time}}<span class="tab"></span>{{part.end_time}}
+</div>
+
+<form name="myForm">
+    <mat-form-field class="time-input">
+        <mat-label>Start Time</mat-label>
+        <input matInput #startTime maxlength="8"  required placeholder="HH:MM:SS"/>
+        <!-- <mat-error *ngIf="isValid(startTime)">invalid Time</mat-error> -->
+    </mat-form-field>
+    
+    <mat-form-field class="time-input">
+        <mat-label>End Time</mat-label>
+        <input matInput #endTime maxlength="8" required placeholder="HH:MM:SS" >
+    </mat-form-field>
+
+    <mat-form-field class="time-input">
+        <mat-label>Date</mat-label>
+        <input matInput #date maxlength="10" required placeholder="YYYY-MM-DD" >
+    </mat-form-field>
+
+</form>
+
+<div>
+    <button mat-raised-button (click)="editOnClick(startTime,endTime,date)">Edit</button>
+</div>
     <!-- [(ngModel)]="selectedId"
 
 <!-- <div *ngFor='let part of participants'>

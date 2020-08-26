@@ -1,7 +1,6 @@
 import { ParticipantsService } from './../participants.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-edit-participant',
@@ -15,7 +14,9 @@ export class EditParticipantComponent implements OnInit {
   disabled = false;
   displayedColumns = ["radioButton","name","startTime","endTime","edit"];
   isChecked = false;
-  selectedId = [];
+  prevIdAndTime = [];
+  newTimings = [];
+  data = {prevTime:{},newTime:{}};
 
   constructor(private _participantService: ParticipantsService,public dialog: MatDialog) {
     this._participantService.getParticipantsWithTimings().subscribe((data)=>{
@@ -26,19 +27,25 @@ export class EditParticipantComponent implements OnInit {
   
   getSelectedId(e:any,id:any,startTime:any,endTime:any){
       if(e.target.checked){
-        this.selectedId.push({id,startTime,endTime});
+        this.prevIdAndTime.push({id,startTime,endTime});
         this.isChecked = !this.isChecked;
       }
-      console.log(this.selectedId);
-      this._participantService.editParticipantTimings(this.selectedId).subscribe((data)=>{
-          console.log(data);
-      });
-    }
-  //getting participants
-//   this._participantService.getParticipantsWithTimings().subscribe((data)=>{
-//    console.log(data);
-//    this.participants = data;
-//  });
+      console.log(this.prevIdAndTime);
+  }
+
+    
+  editOnClick(startTime,endTime,date){
+    this.newTimings = [];
+    this.newTimings.push(date.value + " " + startTime.value);
+    this.newTimings.push(date.value + " " + endTime.value);
+    this.data.prevTime = this.prevIdAndTime;
+    this.data.newTime = this.newTimings;
+
+    this._participantService.editParticipantTimings(this.data).subscribe((data)=>{
+      console.log(data);
+  }); 
+  
+}
 
   ngOnInit(): void {
   }

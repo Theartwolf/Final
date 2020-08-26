@@ -18,6 +18,7 @@ export class SelectParticipantComponent implements OnInit {
   participantSettings = {};
   alertSuccess = false;
   alertRed = false;
+  data = {id:{},time:{}};
 
   constructor(private _participantService: ParticipantsService,public dialog: MatDialog) {
     this.participantSettings = {
@@ -29,31 +30,37 @@ export class SelectParticipantComponent implements OnInit {
       itemsShowLimit: 7,
       allowSearchFilter: true,
     };
+    this._participantService.getParticipants().subscribe((data)=>{
+      this.participants = data;
+      console.log(this.participants);
+    });
   }
-  
-
-   //getting participants
-   participant = this._participantService.getParticipants().subscribe((data)=>{
-    // console.log(data);
-    this.participants = data;
-    console.log(this.participants);
-  });
 
   setparticipant(type){
     console.log(this.selectedId);
   }
-  isValid: boolean;
-  validate(inputField) {
-    this.isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
 
-    if (this.isValid) {
-        inputField.style.backgroundColor = '#bfa';
-    } else {
-        inputField.style.backgroundColor = '#fba';
-    }
-}
+  //sending participants details to backend
+  
+  doneOnClick(startTime, endTime, date){
+    this.timings = [];
+    //validate start time
+    //validate end time
+    //validate date
+    //throw error if not correct
+    this.timings.push(date.value + " " + startTime.value);
+    this.timings.push(date.value + " " + endTime.value);
+    this.data.id = this.selectedId;
+    this.data.time = this.timings;
 
+    this._participantService.checkAvailbility(this.data).subscribe((message: any)=>{
+      console.log(message);
+      this.alertSuccess = true;
+    },(err)=>{
+      this.alertRed = true;
+    });
 
+  }
 
   ngOnInit(): void {
   }
@@ -68,30 +75,10 @@ export class SelectParticipantComponent implements OnInit {
   //   }
   //   console.log(this.selectedId);
   // }
-   x ;
-  data = {id:{},time:{}};
+  
   
 
-  //sending participants details to backend
-  doneOnClick(startTime, endTime, date){
-    this.timings = [];
-    //validate start time
-    //validate end time
-    //validate date
-    //throw error if not correct
-    this.timings.push(date.value + " " + startTime.value);
-    this.timings.push(date.value + " " + endTime.value);
-    this.data.id = this.selectedId;
-    this.data.time = this.timings;
-
-    this.x = this._participantService.checkAvailbility(this.data).subscribe((message: any)=>{
-      console.log(message);
-      this.alertSuccess = true;
-    },(err)=>{
-      this.alertRed = true;
-    });
-
-  }
+  
 
   
    
