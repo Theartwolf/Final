@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { ViewParticipantComponent } from './../view-participant/view-participant.component';
 import { EditParticipantComponent } from './../edit-participant/edit-participant.component';
 import { SelectParticipantComponent } from './../select-participant/select-participant.component';
@@ -12,7 +13,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 })
 export class InterviewComponent implements OnInit {
 
-  constructor(private _participantsService: ParticipantsService,public dialog: MatDialog) { }
+  constructor(private _participantsService: ParticipantsService,public dialog: MatDialog,private toastr: ToastrService) { }
 
 
   ngOnInit(): void {

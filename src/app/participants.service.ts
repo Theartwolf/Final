@@ -20,7 +20,7 @@ export class ParticipantsService {
   
 
   checkAvailbility(data){
-      return this.http.post('http://localhost:3000/check',data);
+      return this.http.post('http://localhost:3000/create',data);
   }
   editParticipantTimings(data){
     return this.http.post('http://localhost:3000/edit',data);

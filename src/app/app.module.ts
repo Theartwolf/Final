@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-
+import { ToastrModule } from 'ngx-toastr';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SelectParticipantComponent } from './select-participant/select-participant.component';
 import { EditParticipantComponent } from './edit-participant/edit-participant.component';
 import { ViewParticipantComponent } from './view-participant/view-participant.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +37,11 @@ import { ViewParticipantComponent } from './view-participant/view-participant.co
     BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot({
+      timeOut: 1000,
+      positionClass:'toast-top-left'
+    })
   ],
   exports: [
     

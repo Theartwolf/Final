@@ -1,6 +1,8 @@
+import { ToastrService } from 'ngx-toastr';
 import { ParticipantsService } from './../participants.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+
 import {Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -20,7 +22,7 @@ export class SelectParticipantComponent implements OnInit {
   alertRed = false;
   data = {id:{},time:{}};
 
-  constructor(private _participantService: ParticipantsService,public dialog: MatDialog) {
+  constructor(private _participantService: ParticipantsService,private toastr: ToastrService ,public dialog: MatDialog) {
     this.participantSettings = {
       singleSelection: false,
       idField: 'par_id',
@@ -53,8 +55,15 @@ export class SelectParticipantComponent implements OnInit {
     this.data.id = this.selectedId;
     this.data.time = this.timings;
 
-    this._participantService.checkAvailbility(this.data).subscribe((message: any)=>{
-      console.log(message);
+    this._participantService.checkAvailbility(this.data).subscribe((serverData: any)=>{
+      console.log(serverData);
+      if(serverData.message === "Select atleast 2 Participants"){
+        this.toastr.error("Select atleast 2 Participants");
+      } else if(serverData.message === "Interview Scheduled"){
+        this.toastr.success("Interview Scheduled");
+      } else {
+        this.toastr.error(serverData.message);
+      }
       this.alertSuccess = true;
     },(err)=>{
       this.alertRed = true;

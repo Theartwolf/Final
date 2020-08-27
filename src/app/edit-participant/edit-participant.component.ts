@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { ParticipantsService } from './../participants.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,7 +19,7 @@ export class EditParticipantComponent implements OnInit {
   newTimings = [];
   data = {prevTime:{},newTime:{}};
 
-  constructor(private _participantService: ParticipantsService,public dialog: MatDialog) {
+  constructor(private _participantService: ParticipantsService,public dialog: MatDialog,private toastr: ToastrService) {
     this._participantService.getParticipantsWithTimings().subscribe((data)=>{
       console.log(data);
       this.participants = data;
@@ -41,8 +42,15 @@ export class EditParticipantComponent implements OnInit {
     this.data.prevTime = this.prevIdAndTime;
     this.data.newTime = this.newTimings;
 
-    this._participantService.editParticipantTimings(this.data).subscribe((data)=>{
-      console.log(data);
+    this._participantService.editParticipantTimings(this.data).subscribe((serverData:any)=>{
+      console.log(serverData);
+      if(serverData.message === "Edit Successful"){
+        this.toastr.success(serverData.message);
+      } else if(serverData.message === "Edit Unsuccessful"){
+        this.toastr.error(serverData.message);
+      } else {
+        this.toastr.error(serverData.message);
+      }
   }); 
   
 }
